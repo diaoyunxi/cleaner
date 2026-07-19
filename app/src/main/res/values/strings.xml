@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">cleaner</string>
+
+    <!-- 主界面 -->
+    <string name="btn_start_scan">开始扫描</string>
+    <string name="btn_stop_scan">停止扫描</string>
+    <string name="btn_delete_selected">删除选中文件</string>
+    <string name="btn_select_all">全选</string>
+    <string name="btn_deselect_all">取消全选</string>
+    <string name="btn_auto_select">自动选择</string>
+    <string name="hint_no_permission">需要「所有文件访问」权限才能扫描重复文件，请点击下方按钮授权</string>
+    <string name="btn_grant_permission">授予权限</string>
+    <string name="hint_scanning">扫描中…</string>
+    <string name="hint_scan_done">扫描完成</string>
+    <string name="hint_scan_cancelled">扫描已取消</string>
+    <string name="hint_no_duplicates">未发现重复文件</string>
+    <string name="hint_idle">点击「开始扫描」查找系统中的重复文件</string>
+
+    <!-- 扫描预览 -->
+    <string name="preview_title">扫描预览</string>
+    <string name="preview_summary">预计扫描 %1$d 个目录</string>
+    <string name="preview_empty">无可扫描的目录，请先授予所有文件访问权限</string>
+    <string name="btn_start_confirm">确认开始</string>
+    <string name="btn_cancel">取消</string>
+
+    <!-- 进度 -->
+    <string name="progress_files">已扫描: %1$d 个文件</string>
+    <string name="progress_groups">已发现: %1$d 组重复</string>
+    <string name="progress_waste">可释放空间: %1$s</string>
+
+    <!-- 结果 -->
+    <string name="result_summary">共 %1$d 组重复，可释放 %2$s</string>
+    <string name="group_count">%1$d 个文件</string>
+    <string name="file_size">%1$s</string>
+    <string name="keep_label">保留</string>
+    <string name="waste_label">可释放 %1$s</string>
+
+    <!-- 删除 -->
+    <string name="delete_confirm_title">确认删除</string>
+    <string name="delete_confirm_msg">将删除 %1$d 个文件，释放 %2$s 空间。此操作不可撤销！</string>
+    <string name="delete_success">成功删除 %1$d 个文件，释放 %2$s</string>
+    <string name="delete_partial">删除完成：成功 %1$d 个，失败 %2$d 个</string>
+    <string name="delete_fail">删除失败</string>
+
+    <!-- 排序 -->
+    <string name="sort_by_size_desc">文件大小 ↓</string>
+    <string name="sort_by_size_asc">文件大小 ↑</string>
+    <string name="sort_by_count_desc">重复数量 ↓</string>
+    <string name="sort_by_count_asc">重复数量 ↑</string>
+    <string name="sort_by_name_asc">名称 A-Z</string>
+    <string name="sort_by_name_desc">名称 Z-A</string>
+    <string name="sort_by_waste_desc">可释放空间 ↓</string>
+
+    <!-- 主题 -->
+    <string name="theme_switch">深色模式</string>
+</resources>

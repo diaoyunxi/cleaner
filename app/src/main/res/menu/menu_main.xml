@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_sort_size_desc"
+        android:title="@string/sort_by_size_desc" />
+
+    <item
+        android:id="@+id/action_sort_count_desc"
+        android:title="@string/sort_by_count_desc" />
+
+    <item
+        android:id="@+id/action_sort_name_asc"
+        android:title="@string/sort_by_name_asc" />
+
+    <item
+        android:id="@+id/action_sort_waste_desc"
+        android:title="@string/sort_by_waste_desc" />
+
+    <item
+        android:id="@+id/action_dark_mode"
+        android:title="@string/theme_switch"
+        android:checkable="true" />
+
+</menu>
