@@ -64,6 +64,18 @@ class FileScanner(private val context: Context) {
      */
     fun getScanRoots(): List<File> {
         val roots = mutableListOf<File>()
+        // Track canonical paths to prevent adding the same physical directory
+        // multiple times via different symlink paths (e.g. /sdcard → /storage/emulated/0)
+        val canonicalPaths = mutableSetOf<String>()
+
+        fun addIfUnique(dir: File) {
+            if (!dir.exists() || !dir.canRead()) return
+            val canonical = try { dir.canonicalPath } catch (_: Exception) { dir.absolutePath }
+            if (canonical !in canonicalPaths) {
+                canonicalPaths.add(canonical)
+                roots.add(dir)
+            }
+        }
 
         // 内部存储
         val internalDirs = listOfNotNull(
@@ -71,9 +83,7 @@ class FileScanner(private val context: Context) {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).parentFile
         )
         for (dir in internalDirs) {
-            if (dir.exists() && dir.canRead() && dir !in roots) {
-                roots.add(dir)
-            }
+            addIfUnique(dir)
         }
 
         // 尝试通过 MediaStore 获取外部存储
@@ -83,10 +93,8 @@ class FileScanner(private val context: Context) {
                 if (vol != null) {
                     // 从 /storage/emulated/0/Android/data/... 取 /storage/emulated/0/
                     val storageRoot = vol.parentFile?.parentFile?.parentFile
-                    if (storageRoot != null && storageRoot.exists() && storageRoot.canRead()
-                        && storageRoot !in roots
-                    ) {
-                        roots.add(storageRoot)
+                    if (storageRoot != null) {
+                        addIfUnique(storageRoot)
                     }
                 }
             }
@@ -94,17 +102,14 @@ class FileScanner(private val context: Context) {
             Log.w(TAG, "获取外部存储失败: ${e.message}")
         }
 
-        // 标准外部存储路径
+        // 标准外部存储路径（部分设备通过不同挂载点访问同一存储）
         val knownPaths = listOf(
             "/storage/emulated/0",
             "/sdcard",
             "/mnt/sdcard"
         )
         for (path in knownPaths) {
-            val f = File(path)
-            if (f.exists() && f.canRead() && f !in roots) {
-                roots.add(f)
-            }
+            addIfUnique(File(path))
         }
 
         return roots
