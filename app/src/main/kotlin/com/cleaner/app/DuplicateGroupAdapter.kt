@@ -57,7 +57,16 @@ class DuplicateGroupAdapter(
         data class FileItem(val group: DuplicateGroup, val fileIndex: Int) : FlatItem()
     }
 
-    private val items = buildFlatList()
+    private var items = buildFlatList()
+
+    /**
+     * 当 groups 数据发生变化（如 autoSelectKeepNewest 重排序后），
+     * 调用此方法刷新扁平化列表并通知 RecyclerView 数据已变更。
+     */
+    fun refreshItems() {
+        items = buildFlatList()
+        notifyDataSetChanged()
+    }
 
     /**
      * 构建扁平化展示列表

@@ -65,14 +65,18 @@ class FileScanner(private val context: Context) {
     fun getScanRoots(): List<File> {
         val roots = mutableListOf<File>()
 
-        // 内部存储
+        // 内部存储（使用 canonicalPath 去重，避免 Downloads.parentFile 与 externalStorage 指向同一路径）
         val internalDirs = listOfNotNull(
             Environment.getExternalStorageDirectory(),
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).parentFile
         )
+        val seenCanonical = mutableSetOf<String>()
         for (dir in internalDirs) {
-            if (dir.exists() && dir.canRead() && dir !in roots) {
-                roots.add(dir)
+            if (dir.exists() && dir.canRead()) {
+                val canonical = try { dir.canonicalPath } catch (_: Exception) { dir.absolutePath }
+                if (seenCanonical.add(canonical)) {
+                    roots.add(dir)
+                }
             }
         }
 
