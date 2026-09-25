@@ -489,10 +489,11 @@ class MainActivity : AppCompatActivity() {
 
             Toast.makeText(this@MainActivity, msg, Toast.LENGTH_LONG).show()
 
-            // 刷新列表: 移除已删除的条目
+            // 刷新列表: 保留未标记删除的文件，以及删除失败（文件仍存在）的标记项；
+            // 移除删除成功（文件已不存在）的标记项。
             val updatedGroups = mutableListOf<DuplicateGroup>()
             for (group in duplicateGroups) {
-                val remaining = group.files.filter { !it.markedForDeletion || !it.file.exists() }
+                val remaining = group.files.filter { !it.markedForDeletion || it.file.exists() }
                 if (remaining.size >= 2) {
                     updatedGroups.add(group.copy(files = remaining.toMutableList()))
                 }
