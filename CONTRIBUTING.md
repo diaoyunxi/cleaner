@@ -1,36 +1,66 @@
-# 贡献指南
+# Contributing
 
-感谢你对 Cleaner 项目的关注！这是一个 Android 文件清理工具，支持重复文件检测和可恢复删除。
+Thank you for considering contributing to this project!
 
-## 开发环境
+## How to Contribute
 
-- **IDE：** Android Studio Hedgehog+
-- **语言：** Kotlin 1.9+
-- **最低 API：** 21（Android 5.0）
-- **构建：** Gradle 8.x
+### Reporting Bugs
 
-## 构建步骤
+1. Check existing [issues](../../issues) to avoid duplicates
+2. Use the issue template and provide:
+   - Clear description of the bug
+   - Steps to reproduce
+   - Expected vs actual behavior
+   - Environment details (OS, language version, etc.)
 
-1. 使用 Android Studio 打开项目
-2. 等待 Gradle 同步完成
-3. 连接设备或启动模拟器
-4. 点击 Run 按钮
+### Suggesting Features
 
-## 安全注意事项
+1. Open a feature request issue
+2. Describe the use case and motivation
+3. Propose a solution if you have one in mind
 
-- 文件删除操作使用 MediaStore 回收站 API（Android 11+），确保可恢复
-- 文件扫描需处理 Storage 权限
-- 不上传或收集用户文件信息
+### Submitting Pull Requests
 
-## 代码规范
+1. **Fork** the repository
+2. **Create a branch** from `main` (or `master`): `git checkout -b fix/your-fix`
+3. **Make your changes** with clear, focused commits
+4. **Test** your changes thoroughly
+5. **Submit a PR** with a descriptive title and body
 
-- 遵循 `.editorconfig` 中定义的 Kotlin 代码风格
-- 新功能需添加对应的单元测试
-- 提交前确保 Gradle 编译通过
+### Code Style
 
-## 提交 Pull Request
+- Follow the existing code style and conventions
+- Write clear commit messages
+- Add tests for new features when possible
+- Update documentation if your changes affect the public API
 
-1. Fork 本仓库并创建功能分支
-2. 确保编译通过且测试通过
-3. 在真实设备或模拟器上验证
-4. 遵循 Conventional Commits 规范提交
+### Commit Message Format
+
+```
+type(scope): description
+
+[optional body]
+```
+
+Types: `fix`, `feat`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`
+
+Examples:
+- `fix(auth): prevent timing attack in token comparison`
+- `feat(api): add rate limiting middleware`
+- `docs: update installation instructions`
+
+## Development Setup
+
+1. Clone your fork: `git clone https://github.com/YOUR_USERNAME/REPO_NAME.git`
+2. Install dependencies (see README for instructions)
+3. Create a branch and start coding!
+
+## Code Review
+
+- All PRs require review before merging
+- Address review comments promptly
+- Be respectful and constructive in discussions
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the same license as the project.
