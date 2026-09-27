@@ -8,6 +8,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.provider.MediaStore
+import android.content.ContentValues
+import android.content.ContentUris
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -466,7 +469,33 @@ class MainActivity : AppCompatActivity() {
             val result = withContext(Dispatchers.IO) {
                 for (entry in filesToDelete) {
                     try {
-                        if (entry.file.delete()) {
+                        val deleted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            // Android 11+: 使用回收站 API 实现可恢复删除
+                            try {
+                                val uri = MediaStore.Files.getContentUri("external")
+                                val selection = "${MediaStore.Files.FileColumns.DATA} = ?"
+                                val selectionArgs = arrayOf(entry.file.absolutePath)
+                                val cursor = contentResolver.query(uri, null, selection, selectionArgs, null)
+                                if (cursor?.moveToFirst() == true) {
+                                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID))
+                                    cursor.close()
+                                    val trashUri = ContentUris.withAppendedId(uri, id)
+                                    val values = ContentValues().apply {
+                                        put(MediaStore.Files.FileColumns.IS_TRASHED, 1)
+                                    }
+                                    contentResolver.update(trashUri, values, null, null) > 0
+                                } else {
+                                    cursor?.close()
+                                    entry.file.delete() // 回退到永久删除
+                                }
+                            } catch (e: Exception) {
+                                Log.w(TAG, "回收站 API 失败，回退到永久删除: ${entry.path}", e)
+                                entry.file.delete()
+                            }
+                        } else {
+                            entry.file.delete()
+                        }
+                        if (deleted) {
                             successCount++
                         } else {
                             failCount++
