@@ -71,7 +71,7 @@ class FileScanner(private val context: Context) {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).parentFile
         )
         for (dir in internalDirs) {
-            if (dir.exists() && dir.canRead() && dir !in roots) {
+            if (dir.exists() && dir.canRead() && dir.canonicalPath !in roots.map { it.canonicalPath }) {
                 roots.add(dir)
             }
         }
@@ -84,7 +84,7 @@ class FileScanner(private val context: Context) {
                     // 从 /storage/emulated/0/Android/data/... 取 /storage/emulated/0/
                     val storageRoot = vol.parentFile?.parentFile?.parentFile
                     if (storageRoot != null && storageRoot.exists() && storageRoot.canRead()
-                        && storageRoot !in roots
+                        && storageRoot.canonicalPath !in roots.map { it.canonicalPath }
                     ) {
                         roots.add(storageRoot)
                     }
@@ -102,7 +102,7 @@ class FileScanner(private val context: Context) {
         )
         for (path in knownPaths) {
             val f = File(path)
-            if (f.exists() && f.canRead() && f !in roots) {
+            if (f.exists() && f.canRead() && f.canonicalPath !in roots.map { it.canonicalPath }) {
                 roots.add(f)
             }
         }
