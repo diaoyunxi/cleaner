@@ -1,23 +1,38 @@
-*.iml
-.gradle
-/local.properties
-/.idea
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
-/app/build
-/app/release
+# Gradle
+.gradle/
+build/
+!gradle-wrapper.jar
+
+# Android
 *.apk
 *.ap_
+*.aab
 *.dex
+
+# IDE
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
 *.class
-gen/
-bin/
-out/
-.navigation/
 *.log
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local configuration
+local.properties
+
+# Keystore files
+*.jks
 *.keystore
-!debug.keystore
+
+# Generated files
+gen/
+out/
