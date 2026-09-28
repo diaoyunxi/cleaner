@@ -226,7 +226,7 @@ class FileScanner(private val context: Context) {
         // 阶段3: 对 XXH64 匹配的文件计算 SHA-256 精确确认
         emit(ScanProgress(filesScanned, 0, 0, phase = "精确比对中..."))
         val result = mutableListOf<DuplicateGroup>()
-        var processedCandidates = 0
+        val processedCandidates = 0
 
         for (candidateGroup in candidates) {
             if (Thread.currentThread().isInterrupted) return@flow
