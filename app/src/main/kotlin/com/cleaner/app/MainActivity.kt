@@ -463,8 +463,8 @@ class MainActivity : AppCompatActivity() {
      */
     private fun performDelete(filesToDelete: List<FileEntry>, totalSize: Long) {
         lifecycleScope.launch {
-            var successCount = 0
-            var failCount = 0
+            val successCount = 0
+            val failCount = 0
 
             val result = withContext(Dispatchers.IO) {
                 for (entry in filesToDelete) {
