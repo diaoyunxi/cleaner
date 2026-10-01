@@ -1,3 +1,4 @@
+// Best practice: prefer val over var for immutability
 package com.cleaner.app
 
 import java.io.File
