@@ -149,6 +149,11 @@ class FileScanner(private val context: Context) {
                     ) return@onEnter false
                     true
                 }
+                .onFail { dir, ex ->
+                    // Android 11+ scoped storage 可能抛出 SecurityException，
+                    // 跳过不可访问的目录而非崩溃
+                    Log.w(TAG, "无法访问目录 ${dir?.absolutePath}: ${ex.message}")
+                }
                 .forEach { file ->
                     if (file.isFile && file.canRead()) {
                         count++
@@ -183,6 +188,11 @@ class FileScanner(private val context: Context) {
                         dir.absolutePath.contains("/Android/obb/")
                     ) return@onEnter false
                     true
+                }
+                .onFail { dir, ex ->
+                    // Android 11+ scoped storage 可能抛出 SecurityException，
+                    // 跳过不可访问的目录而非中断扫描
+                    Log.w(TAG, "无法访问目录 ${dir?.absolutePath}: ${ex.message}")
                 }
                 .forEach { file ->
                     // 检查取消标志
