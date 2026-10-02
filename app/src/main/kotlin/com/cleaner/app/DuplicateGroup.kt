@@ -44,17 +44,23 @@ data class DuplicateGroup(
 
     /**
      * 全选/取消全选
-     * 注意: 保留的文件（index 0）不受影响，不会被选中
+     * 注意: 保留的文件不受影响，不会被选中；始终确保至少一个文件被保护
      *
      * @param select true=全选待删除项, false=取消全部
      */
     fun selectAll(select: Boolean) {
-        val keepIndex = files.indexOfFirst { !it.markedForDeletion }.coerceAtLeast(0)
+        if (files.isEmpty()) return
+        // 优先使用当前未标记的文件作为保留项；若所有文件均已标记，回退到最新文件
+        val keepIndex = files.indexOfFirst { !it.markedForDeletion }
+            .takeIf { it >= 0 }
+            ?: files.indexOfFirst { it.lastModified == files.maxOf { f -> f.lastModified } }
         files.forEachIndexed { index, entry ->
             if (index != keepIndex) {
                 entry.markedForDeletion = select
             }
         }
+        // 强制保护保留文件，防止 selectAll(true) 将所有文件标记为删除
+        files[keepIndex].markedForDeletion = false
     }
 
     /**
@@ -62,7 +68,10 @@ data class DuplicateGroup(
      * 如果当前有未选中的待删除项，则全选；否则全部取消
      */
     fun toggleSelectAll() {
-        val keepIndex = files.indexOfFirst { !it.markedForDeletion }.coerceAtLeast(0)
+        if (files.isEmpty()) return
+        val keepIndex = files.indexOfFirst { !it.markedForDeletion }
+            .takeIf { it >= 0 }
+            ?: files.indexOfFirst { it.lastModified == files.maxOf { f -> f.lastModified } }
         val deletable = files.filterIndexed { index, _ -> index != keepIndex }
         val anyUnselected = deletable.any { !it.markedForDeletion }
         selectAll(anyUnselected)
