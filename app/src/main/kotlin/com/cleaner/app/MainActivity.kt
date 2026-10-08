@@ -475,19 +475,18 @@ class MainActivity : AppCompatActivity() {
                                 val uri = MediaStore.Files.getContentUri("external")
                                 val selection = "${MediaStore.Files.FileColumns.DATA} = ?"
                                 val selectionArgs = arrayOf(entry.file.absolutePath)
-                                val cursor = contentResolver.query(uri, null, selection, selectionArgs, null)
-                                if (cursor?.moveToFirst() == true) {
-                                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID))
-                                    cursor.close()
-                                    val trashUri = ContentUris.withAppendedId(uri, id)
-                                    val values = ContentValues().apply {
-                                        put(MediaStore.Files.FileColumns.IS_TRASHED, 1)
+                                contentResolver.query(uri, null, selection, selectionArgs, null)?.use { cursor ->
+                                    if (cursor.moveToFirst()) {
+                                        val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID))
+                                        val trashUri = ContentUris.withAppendedId(uri, id)
+                                        val values = ContentValues().apply {
+                                            put(MediaStore.Files.FileColumns.IS_TRASHED, 1)
+                                        }
+                                        contentResolver.update(trashUri, values, null, null) > 0
+                                    } else {
+                                        entry.file.delete() // 回退到永久删除
                                     }
-                                    contentResolver.update(trashUri, values, null, null) > 0
-                                } else {
-                                    cursor?.close()
-                                    entry.file.delete() // 回退到永久删除
-                                }
+                                } ?: entry.file.delete()
                             } catch (e: Exception) {
                                 Log.w(TAG, "回收站 API 失败，回退到永久删除: ${entry.path}", e)
                                 entry.file.delete()
