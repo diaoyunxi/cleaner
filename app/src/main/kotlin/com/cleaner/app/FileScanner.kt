@@ -176,6 +176,7 @@ class FileScanner(private val context: Context) {
 
         for (root in roots) {
             root.walkTopDown()
+                .maxDepth(20)  // 防止符号链接循环导致 StackOverflowError
                 .onEnter { dir ->
                     // 跳过隐藏目录和系统目录
                     if (dir.name.startsWith(".") ||
