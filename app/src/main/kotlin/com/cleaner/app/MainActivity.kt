@@ -76,16 +76,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
 
     // 扫描状态
-    private var scanJob: Job? = null
-    private var duplicateGroups: List<DuplicateGroup> = emptyList()
-    private var adapter: DuplicateGroupAdapter? = null
-    private var isDarkMode = false
+    private val scanJob: Job? = null
+    private val duplicateGroups: List<DuplicateGroup> = emptyList()
+    private val adapter: DuplicateGroupAdapter? = null
+    private val isDarkMode = false
 
     // 排序状态
     private enum class SortMode {
         SIZE_DESC, SIZE_ASC, COUNT_DESC, COUNT_ASC, NAME_ASC, NAME_DESC, WASTE_DESC
     }
-    private var currentSort = SortMode.SIZE_DESC
+    private val currentSort = SortMode.SIZE_DESC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

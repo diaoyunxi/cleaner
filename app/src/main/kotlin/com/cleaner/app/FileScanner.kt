@@ -285,7 +285,7 @@ class FileScanner(private val context: Context) {
 
     /** 最近一次扫描结果 */
     @Volatile
-    private var _lastResult: List<DuplicateGroup> = emptyList()
+    private val _lastResult: List<DuplicateGroup> = emptyList()
 
     /**
      * 获取最近一次扫描结果
