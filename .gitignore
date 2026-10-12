@@ -36,3 +36,8 @@ local.properties
 # Generated files
 gen/
 out/
+
+# Environment files (may contain secrets)
+.env
+.env.local
+.env.*.local
