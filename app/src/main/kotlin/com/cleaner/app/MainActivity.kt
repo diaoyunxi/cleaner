@@ -75,11 +75,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnStartScan: MaterialButton
     private lateinit var recyclerView: RecyclerView
 
-    // 扫描状态
-    private val scanJob: Job? = null
-    private val duplicateGroups: List<DuplicateGroup> = emptyList()
-    private val adapter: DuplicateGroupAdapter? = null
-    private val isDarkMode = false
+    // 扫描状态（运行期间会被重新赋值，必须为 var）
+    private var scanJob: Job? = null
+    private var duplicateGroups: List<DuplicateGroup> = emptyList()
+    private var adapter: DuplicateGroupAdapter? = null
+    private var isDarkMode = false
 
     // 排序状态
     private enum class SortMode {
